@@ -1,5 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const valid = require('./middlewares/valid');
 const app = express();
 const port = 4000;
 
@@ -13,12 +14,11 @@ app.get('/', (req, res) => {
 });
 
 // crear
-app.post('/', (req, res) => {
+app.post('/', valid, (req, res) => {
     array.push(req.body.msg);
 
-    res.status(200);
-    res.send('mensaje agregado correctamente');
-})
+    res.status(200).json(array);
+});
 
 // actualizar
 app.put('/:number', (req, res) => {
@@ -34,8 +34,9 @@ app.delete('/:number', (req, res) => {
 
     res.status(200);
     res.send('se elimino correctamente');
-})
+});
 
+// listener
 app.listen(port, () => {
     console.log('Its working');
 });
